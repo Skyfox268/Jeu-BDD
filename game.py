@@ -147,13 +147,18 @@ def combat(team, monster):
                 subir_attack(team,monster)
 
 def get_hero_stats(hero):
-    "..."
+    hero_stats = collection_heros.find_one({"Heros": hero})
+    return hero_stats["Heros"][hero]
 
 def get_monster_stats(monster):
-    "..."
+    monster_stats = collection_ennemies.find_one({"Monsters": monster})
+    return monster_stats["Monsters"][monster]
 
 def print_stats(hero, monster):
-    "..."
+    hero_stats = get_hero_stats(hero)
+    monster_stats = get_monster_stats(monster)
+    print(f"Stats de {hero} : ATK: {hero_stats['ATK']}, DEF: {hero_stats['DEF']}, PV: {hero_stats['PV']}")
+    print(f"Stats de {monster} : ATK: {monster_stats['ATK']}, DEF: {monster_stats['DEF']}, PV: {monster_stats['PV']}")
 
 def monster_is_alive(monster):
     while True:
