@@ -8,7 +8,7 @@ def afficher_en_forme_jeu():
     print("3. Si un de tes heros meurt, le jeu te demandera de choisir qui tu veux envoyer combattre")
     print("=====================")
 
-def afficher_option():
+def afficher_menu():
     print("=====================")
     print("Vous avez 3 choix possibles :")
     print("=====================")
@@ -22,6 +22,6 @@ print()
 afficher_en_forme_jeu()
 print()
 print()
-afficher_option()
+afficher_menu()
 print()
 print()
