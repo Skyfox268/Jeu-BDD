@@ -1,107 +1,4 @@
 
-Structure 
-
-- Avant le debut du jeu
-    -Bienvenue + affichage des regles
-    -Demande a l'utilisateur son pseudo 
-        .Verifier si input valide
-        .Ajouter le pseudo a la BDD pour le score
-    -Affiche les personnages jouables a l'utilisateur
-        .Demande a l'utilisateur de choisir avec 1 2 ou 3 (3 perso maxi)
-        .Verifier si les inputs de l'user sont valables
-        .Ajouter les heros a la main de l'user
-    -Montrer la main de heros au joueur
-        .Lui demander si il souhaite changer ou valider definitivement
-            .Ajouter l'equipe definitvement a la bdd
-    
-    -Lancement du jeu 
-    Dans une boucle :
-        -Faire apparaitre un monstre aleatoirement
-        -Afficher a l'user qu'un monstre est apparu et afficher ses caracteristiques
-        -COMBAT :
-            -Tirer aleatoirement le premier qui attaque
-                si monstre attaque en premier:
-                    vie de heros = vie de heros - attaque de monstre
-                sinon : 
-                    vie de monstre = vie de monstre - attaque de heros
-                
-            - Si monstre mort :
-                message disant que il a tue un ennemi 
-                respawn aleatoire d'un ennemi
-                vague + = 1
-            
-             si heros mort : 
-              message disant que un des heros est mort
-              passer au heros suivant dans la main
-            
-        sinon:
-            continuer combat
-        
-        -FIN COMBAT : 
-            si plus de heros :
-                message disant fin de partie vous avez perdu 
-                afficher nombre de vagues
-                enregistrer score dans bdd
-            
-            sinon : 
-                si vague = 20
-                afficher victoire
-                enregistrer victoire
-
-
-
-
-"ATTAQUER"
-
-#Definir attack
-
-    #Recuperer les stats du hero 
-    #Recuperer les stats du monstre ainsi que son nom
-        #Boucle
-            #Afficher vie et defense du monstre
-            #Mettre damage au monstre avec vie monstre = vie monstre - atk hero
-            #Check monstre_is_alive
-
-
-#monster_is_alive()
-    #recuperer stats du monstre après attack
-    #comparer cette valeur avec 0
-    #SI vie <= 0
-        #indiquer monstre battu 
-    #SINON
-        #indiquer combien de vie reste au monstre 
-    
-"SUBIR ATTAQUE"
-
-#Definir subir_attak
-
-    #Recuperer stats hero 
-    #Recuperer stats monstre
-        #Boucle
-            #Afficher vie et defense du hero 
-            #Mettre damage au hero avec vie hero = vie hero - atk monstre
-            #Chek hero_is_alive
-
-#hero_is_alive()
-    #recuperer stats du hero après atak
-    #comparer la valeur avec 0
-    #SI vie <= 0
-        #indiquer si hero encore vivant
-    #SI
-        #indiquer combien de vie restante
-    #SINON 
-        #Proposer de changer le heros si hero mort ( switch_hero )
-            
-
-def combat()
-    tant que la team est en vie 
-        start round
-        tant que ennemi en vie 
-            attaquer ennemi
-            si hero est en vie 
-                monstre attaque hero
-
-
 #######################  LOGIQUE PRINCIPALE DU JEU ############################
 
 ######### AFFICHAGE DU DEBUT ########
@@ -113,4 +10,92 @@ lancement des choix :
     demander choix a user
     si choix player valide:
         on lance le menu et on retourne le choix fais par le user
-        
+
+Menu des choix:
+    Si choix user est de jouer:
+        on demande pseudo a l'aide de ask_pseudo
+        et on start_game
+    si choix est leaderboard:
+        on affiche leaderboard
+    et sinon choix est quitter
+        quitter game
+
+pseudo_valide : 
+    verification de validité:
+        valide
+    pas valide
+
+choix_valide :
+    verification;
+        valide
+    pas valide
+
+
+###########  MENU DES HEROS ###########
+
+on recupere les heros dans la base de données:
+    on les montres a user:
+        tant que team pas complete et choix de user est valide parmis les heros:
+            inserer heros dans la liste chosen_heros
+            retourner les heros choisis lorsque team complete fin boucle
+
+    montrer team complete a user:
+        recuperer la liste finis
+        afficher en console
+
+team_choice_valide:
+    input du choix
+    si choix est chiffre et choix compris dans intervalle:
+        valide
+    pas valide
+
+team_complete:
+    si longeur de team est egale a maximum hero possibles:
+        team complete (true)
+    team pas finis
+
+
+##############   CHOISIR MONSTRE #############
+
+choisir_monstre:
+    on recupere monstre dans la bdd
+    on en pioche un de facon random
+    on le retourne
+
+
+##############    BOUCLE DE JEU COMBAT    ####################
+
+lancer le combat:
+    lancer un round aleatoirement:
+        choisir un monstre aleatoire = choisir_monstre
+        combattre(team et monstre):
+            tant que la team est vivante et tant que un monstre est présent (vivant):
+                on peux lancer combat
+                attaquer le monstre:
+                    afficher vie monstre
+                    afficher vie et degat de hero
+                    vie monstre = vie monstre - degat hero
+                    on verifie si le monstre est mort ou pas:
+                        si vie monstre <= 0:
+                            monstre mort
+                        sinon
+                            monstre pas mort
+                Seulement si le monstre pas mort -> nous attaque:
+                    afficher vie hero
+                    afficher vie et degat de monstre
+                    vie hero = vie hero - degat monstre
+                    on verifie si hero mort ou pas:
+                        si vie hero <= 0:
+                            hero mort
+                            switch_hero:
+                                recuperer liste de hero
+                                piocher un hero dans la liste et le remplacer
+                        sinon continuer combat:
+                            relancer un round aleatoirement:
+                            repeter la boucle a l'infini
+                            comptez vague:
+                                si monstre mort:
+                                ajouter 1 a vague
+
+
+
