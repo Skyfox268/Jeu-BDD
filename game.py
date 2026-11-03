@@ -132,47 +132,6 @@ def choose_monster():
 ############################################################  PARTIE COMBAT  ############################################################
 
 
-"ATTAQUER"
-
-#Definir attack
-
-    #Recuperer les stats du hero 
-    #Recuperer les stats du monstre ainsi que son nom
-        #Boucle
-            #Afficher vie et defense du monstre
-            #Mettre damage au monstre avec vie monstre = vie monstre - atk hero
-            #Check monstre_is_alive
-
-
-#monster_is_alive()
-    #recuperer stats du monstre après attack
-    #comparer cette valeur avec 0
-    #SI vie <= 0
-        #indiquer monstre battu 
-    #SINON
-        #indiquer combien de vie reste au monstre 
-    
-"SUBIR ATTAQUE"
-
-#Definir subir_attak
-
-    #Recuperer stats hero 
-    #Recuperer stats monstre
-        #Boucle
-            #Afficher vie et defense du hero 
-            #Mettre damage au hero avec vie hero = vie hero - atk monstre
-            #Chek hero_is_alive
-
-#hero_is_alive()
-    #recuperer stats du hero après atak
-    #comparer la valeur avec 0
-    #SI vie <= 0
-        #indiquer si hero encore vivant
-    #SI
-        #indiquer combien de vie restante
-    #SINON 
-        #Proposer de changer le heros si hero mort ( switch_hero )
-
 
 def start_round(team,monster):
     team = choose_heros()
@@ -180,7 +139,12 @@ def start_round(team,monster):
     combat(team, monster)
 
 def combat(team, monster):
-    "..."
+    while team_is_alive(team):
+        start_round(team, monster)
+        while monster_is_alive(monster):
+            attack(team,monster)
+            if hero_is_alive(team):
+                subir_attack(team,monster)
 
 def get_hero_stats(hero):
     "..."
@@ -198,16 +162,24 @@ def monster_is_alive(monster):
             print(f"{monster} est mort !")
             return False
         break
-    return True
+    return stats
 
 def hero_is_alive(hero):
     while True:
         stats = get_hero_stats(hero)
         if stats <= 0:
             print(f"{hero} est mort !")
-            return False
+            return switch_hero()
         break
-    return True
+    return stats
+
+def team_is_alive(team):
+    for hero in team:
+        if hero_is_alive(hero):
+            return True
+        
+def switch_hero():
+    "..."
 
 def monster_take_damage(monster, hero):
     "..."
@@ -229,7 +201,15 @@ def subir_attack(hero, monster):
     while monster_is_alive(monster) and hero_is_alive(hero):
         print_stats(hero,monster)
         hero_take_damage()
-        hero_is_alive(hero) 
+        hero_is_alive(hero)
+
+def count_waves():
+    "..."
+
+def end_game():
+    "..."
+        
+
 
 
 

@@ -16,6 +16,15 @@ def afficher_menu():
     print("Appuyez sur 2 pour afficher les scores")
     print("Appuyez sur 3 pour quitter le jeu")
 
+def loose():
+    print("Vous avez perdu !")
+    print("Merci d'avoir joué !")
+    exit()
+
+def win():
+    print("Vous avez gagné !")
+    print("Merci d'avoir joué !")
+    exit()
 
 print()
 print()

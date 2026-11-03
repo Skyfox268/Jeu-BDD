@@ -48,3 +48,69 @@ Structure
                 afficher victoire
                 enregistrer victoire
 
+
+
+
+"ATTAQUER"
+
+#Definir attack
+
+    #Recuperer les stats du hero 
+    #Recuperer les stats du monstre ainsi que son nom
+        #Boucle
+            #Afficher vie et defense du monstre
+            #Mettre damage au monstre avec vie monstre = vie monstre - atk hero
+            #Check monstre_is_alive
+
+
+#monster_is_alive()
+    #recuperer stats du monstre après attack
+    #comparer cette valeur avec 0
+    #SI vie <= 0
+        #indiquer monstre battu 
+    #SINON
+        #indiquer combien de vie reste au monstre 
+    
+"SUBIR ATTAQUE"
+
+#Definir subir_attak
+
+    #Recuperer stats hero 
+    #Recuperer stats monstre
+        #Boucle
+            #Afficher vie et defense du hero 
+            #Mettre damage au hero avec vie hero = vie hero - atk monstre
+            #Chek hero_is_alive
+
+#hero_is_alive()
+    #recuperer stats du hero après atak
+    #comparer la valeur avec 0
+    #SI vie <= 0
+        #indiquer si hero encore vivant
+    #SI
+        #indiquer combien de vie restante
+    #SINON 
+        #Proposer de changer le heros si hero mort ( switch_hero )
+            
+
+def combat()
+    tant que la team est en vie 
+        start round
+        tant que ennemi en vie 
+            attaquer ennemi
+            si hero est en vie 
+                monstre attaque hero
+
+
+#######################  LOGIQUE PRINCIPALE DU JEU ############################
+
+######### AFFICHAGE DU DEBUT ########
+
+Message de bienvenu du jeu 
+Règles
+Afficher menu avec 3 choix possibles
+lancement des choix :
+    demander choix a user
+    si choix player valide:
+        on lance le menu et on retourne le choix fais par le user
+        
