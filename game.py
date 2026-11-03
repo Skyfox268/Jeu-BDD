@@ -102,7 +102,7 @@ def choose_heros(heros, choice):
     heros = get_heros()
     show_heros()
     chosen_heros = []
-    while not team_complete(chosen_heros):
+    while not team_complete(chosen_heros) and is_team_choice_valide(choice):
         chosen_heros.append(heros(choice[-1]))
         return chosen_heros
 
@@ -174,7 +174,62 @@ def choose_monster():
         #Proposer de changer le heros si hero mort ( switch_hero )
 
 
+def start_round(team,monster):
+    team = choose_heros()
+    monster = choose_monster()
+    combat(team, monster)
 
+def combat(team, monster):
+    "..."
+
+def get_hero_stats(hero):
+    "..."
+
+def get_monster_stats(monster):
+    "..."
+
+def print_stats(hero, monster):
+    "..."
+
+def monster_is_alive(monster):
+    while True:
+        stats = get_monster_stats(monster)
+        if stats <= 0:
+            print(f"{monster} est mort !")
+            return False
+        break
+    return True
+
+def hero_is_alive(hero):
+    while True:
+        stats = get_hero_stats(hero)
+        if stats <= 0:
+            print(f"{hero} est mort !")
+            return False
+        break
+    return True
+
+def monster_take_damage(monster, hero):
+    "..."
+
+def hero_take_damage(hero, monster):
+    "..."
+
+def attack(hero, monster):
+    get_hero_stats(hero)
+    get_monster_stats(monster)
+    while monster_is_alive(monster) and hero_is_alive(hero):
+        print_stats(hero,monster)
+        monster_take_damage()
+        monster_is_alive(monster)    
+
+def subir_attack(hero, monster):
+    get_hero_stats(hero)
+    get_monster_stats(monster)
+    while monster_is_alive(monster) and hero_is_alive(hero):
+        print_stats(hero,monster)
+        hero_take_damage()
+        hero_is_alive(hero) 
 
 
 
