@@ -134,10 +134,10 @@ def get_monsters():
 
 #Choisir aleatoirement un monstre
 def choose_monster():
-    monsters = list(collection_ennemies["Monsters"].find())
-    choosen_monster = random.choice(monsters)
-    return choosen_monster
-
+    monsters = get_monsters()
+    if not monsters:
+        print("Aucun monstre disponible.")
+    return random.choice(monsters)
 
 
 ############################################################  PARTIE COMBAT  ############################################################
@@ -145,54 +145,57 @@ def choose_monster():
 
 
 def start_round(team,monster):
-    team = choose_heros()
-    monster = choose_monster()
-    combat(team, monster)
+    hero = choose_active_hero(team)
+    attack(hero, monster)
+    if monster_is_alive(monster):
+        subir_attack(hero, monster)
+    return monster_is_alive(monster)
 
 def combat(team, monster):
-    while team_is_alive(team):
+    while team_is_alive(team) and monster_is_alive(monster):
         start_round(team, monster)
-        while monster_is_alive(monster):
-            attack(team,monster)
-            if hero_is_alive(team):
-                subir_attack(team,monster)
 
-def get_hero_stats(hero):
-    hero_stats = collection_heros.find_one({"Heros": hero})
-    return hero_stats["Heros"][hero]
+    if monster_is_alive(monster):
+        return False
+    print(f"Vous avez vaincu {get_character_name(monster)} !")
+    return True
 
-def get_monster_stats(monster):
-    monster_stats = collection_ennemies.find_one({"Monsters": monster})
-    return monster_stats["Monsters"][monster]
+def get_character_stats(character):
+    for key in character:
+        if key != "_id":
+            return character[key]
+        break
+
+def get_character_name(character):
+    for key in character:
+        if key != "_id":
+            return key
+        break
 
 def print_stats(hero, monster):
-    hero_stats = get_hero_stats(hero)
-    monster_stats = get_monster_stats(monster)
-    print(f"Stats de {hero} : ATK: {hero_stats['ATK']}, DEF: {hero_stats['DEF']}, PV: {hero_stats['PV']}")
-    print(f"Stats de {monster} : ATK: {monster_stats['ATK']}, DEF: {monster_stats['DEF']}, PV: {monster_stats['PV']}")
+    hero_name = get_character_name(hero)
+    hero_stats = get_character_stats(hero)
+
+    monster_name = get_character_name(monster)
+    monster_stats = get_character_stats(monster)
+
+    print(f"Stats de {hero_name} : ATK: {hero_stats['ATK']}, DEF: {hero_stats['DEF']}, PV: {hero_stats['PV']}")
+    print(f"Stats de {monster_name} : ATK: {monster_stats['ATK']}, DEF: {monster_stats['DEF']}, PV: {monster_stats['PV']}")
+
 
 def monster_is_alive(monster):
-    while True:
-        stats = get_monster_stats(monster)
-        if stats <= 0:
-            print(f"{monster} est mort !")
-            return False
-        break
-    return stats
+    stats = get_character_stats(monster)
+    return stats['PV'] > 0
 
 def hero_is_alive(hero):
-    while True:
-        stats = get_hero_stats(hero)
-        if stats <= 0:
-            print(f"{hero} est mort !")
-            return switch_hero()
-        break
-    return stats
+   stats = get_character_stats(hero)
+   return stats['PV'] > 0
 
 def team_is_alive(team):
     for hero in team:
         if hero_is_alive(hero):
             return True
+    return False
         
 def switch_hero():
     "..."
