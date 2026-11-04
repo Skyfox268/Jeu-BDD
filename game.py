@@ -1,5 +1,6 @@
 from db_init import *
 import random
+TEAM_SIZE = 3
 
 
 #############################################  PARTIE MENU  ############################################################
@@ -7,18 +8,18 @@ import random
 
 #Choix du pseudo par l'utilisateur
 def ask_pseudo(pseudo):
-    pseudo = input("Entre le pseudo souhaité de maximum 10 caractères : ")
-    if is_pseudo_valide(pseudo):
-        return pseudo
-    else:
-        ask_pseudo(pseudo)
+    while True:
+        pseudo = input("Entre le pseudo souhaité de maximum 10 caractères : ")
+        if is_pseudo_valide(pseudo):
+            return pseudo
+        print("Pseudo invalide veuillez utiliser seulement des lettres et au maximum 10 caractères")
+    
 
 #Validité du pseudo rentré par l'utilisateur
 def is_pseudo_valide(pseudo):
     if pseudo.isalpha() and len(pseudo) <= 10:
         return True
-    else:
-        return ("Le pseudo doit contenir uniquement des lettres et ne pas dépasser 10 caractères.")
+    return False
 
 #Verification de la validité du choix du menu
 def is_player_choice_valide(choice):
@@ -28,31 +29,32 @@ def is_player_choice_valide(choice):
         return ("Le choix doit être fait avec les chiffres de 1 à 3 seulement")
 
 #Menu du début avec choix de lancer jeu, afficher les scores ou quitter le jeu
-def lancement():
-    choice = input("Veuillez choisir une option entre 1 et 3 : ")
-    if not is_player_choice_valide(choice):
-        print("Le choix doit être fait avec les chiffres de 1 à 3 seulement")
-        return lancement()
-    else:
-        choix_menu()
-        return choice
+def ask_choice_menu():
+    while True:
+        choice = input("Veuillez choisir une option entre 1, 2 et 3")
+        if is_player_choice_valide(choice):
+            return choice
+        print("Choix invalide. Veuillez entre un chiffre correspondant entre 1 et 3")
 
 #Menu du jeu 
 def choix_menu():
     while True:
-        if lancement() == 1:
-            pseudo =ask_pseudo()
-            print(f"Bienvenue {pseudo} dans le jeu !")
-            start_game()
-        elif lancement() == 2:
+        choice = ask_choice_menu()
+        if choice == "1":
+           print("Lancement du jeu...")
+           start_game()
+        elif choice == "2":
             print("Vous avez choisi d'afficher les scores")
             leaderboard()
-        elif lancement() == 3:
+        elif choice == "3":
             print("Vous avez choisi de quitter le jeu")
             quit_game()
 
 #Commencer jeu
 def start_game():
+    pseudo = ask_pseudo("")
+    team = choose_heros()
+    show_team(team)
     print("Le jeu commence !")
 
 #Afficher classement
