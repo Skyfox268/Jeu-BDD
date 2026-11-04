@@ -1,5 +1,7 @@
-from db_init import *
+from db_init import collection_heros, collection_ennemies
 import random
+from utils import afficher_creating_team
+import json 
 TEAM_SIZE = 3
 
 
@@ -28,7 +30,7 @@ def is_player_choice_valide(choice):
 #Menu du début avec choix de lancer jeu, afficher les scores ou quitter le jeu
 def ask_choice_menu():
     while True:
-        choice = input("Veuillez choisir une option entre 1, 2 et 3")
+        choice = input("Veuillez choisir une option entre 1, 2 et 3 : ")
         if is_player_choice_valide(choice):
             return choice
         print("Choix invalide. Veuillez entre un chiffre correspondant entre 1 et 3")
@@ -75,6 +77,7 @@ def get_heros():
 
 #Montrer les heros disponibles
 def show_heros():
+    heros = get_heros()
     print("========================")
     print("Voici les heros disponibles")
     #boucle 
@@ -96,7 +99,8 @@ def is_team_choice_valide(choice, heros):
     return (choice.isdigit() and 1<= int(choice) <= len(heros))
 
 #Demander le choix du hero au user
-def ask_choice_heros(heros):
+def ask_choice_heros(heros, team):
+    afficher_creating_team(team)
     while True:
         #demander choix a user
         choice = input(f"Veuillez choisir un héros entre 1 et {len(heros)} : ")
@@ -130,7 +134,7 @@ def show_hero(index, hero):
     #recuperer les stats avec les clés
     name = next(key for key in hero if key != "_id")
     stats = hero[name]
-    print(f"{index}. {name} - "f"ATK: {stats['ATK']}, DEF: {stats['DEF']}, PV: {stats['PV']}")
+    print(f"{index}. {name} - ATK: {stats['ATK']}, DEF: {stats['DEF']}, PV: {stats['PV']}")
 
 #Afficher la team a l'utilisateur
 def show_team(team):
