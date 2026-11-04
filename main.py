@@ -1,8 +1,7 @@
-from game import*
-from models import*
-from utils import*
+from game import *
+from models import *
+from utils import display_menu_choices
 
-afficher_en_forme_jeu()
-afficher_menu()
-lancement()
+display_menu_choices()
+choix_menu()
 
