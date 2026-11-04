@@ -99,8 +99,7 @@ def is_team_choice_valide(choice, heros):
     return (choice.isdigit() and 1<= int(choice) <= len(heros))
 
 #Demander le choix du hero au user
-def ask_choice_heros(heros, team):
-    afficher_creating_team(team)
+def ask_choice_heros(heros):
     while True:
         #demander choix a user
         choice = input(f"Veuillez choisir un héros entre 1 et {len(heros)} : ")
@@ -125,16 +124,18 @@ def choose_heros():
         choice = ask_choice_heros(heros)
         #ajouter le hero choisi dans la liste finale
         hero = heros[choice - 1]
-        chosen_heros.append(heros)
+        chosen_heros.append(hero)
         #retourner la liste au user
         return chosen_heros
 
 #Patron d'affichage propre d'un personnage
 def show_hero(index, hero):
-    #recuperer les stats avec les clés
-    name = next(key for key in hero if key != "_id")
-    stats = hero[name]
-    print(f"{index}. {name} - ATK: {stats['ATK']}, DEF: {stats['DEF']}, PV: {stats['PV']}")
+    name = hero.get("name")
+    attaque = hero.get("ATK")
+    defense = hero.get("DEF")
+    pv = hero.get("PV")
+
+    print(f"{index}. {name} - ATK: {attaque}, DEF: {defense}, PV: {pv}")
 
 #Afficher la team a l'utilisateur
 def show_team(team):
