@@ -23,10 +23,7 @@ def is_pseudo_valide(pseudo):
 
 #Verification de la validité du choix du menu
 def is_player_choice_valide(choice):
-    if choice.isdigit() and choice < 4 and choice > 0:
-        return True
-    else:
-        return ("Le choix doit être fait avec les chiffres de 1 à 3 seulement")
+    return choice in ["1", "2", "3"]
 
 #Menu du début avec choix de lancer jeu, afficher les scores ou quitter le jeu
 def ask_choice_menu():
@@ -73,7 +70,7 @@ def quit_game():
 
 #Recuperer heros
 def get_heros():
-    return list(collection_heros["Heros"].find())
+    return list(collection_heros.find())
 
 #Montrer les heros disponibles
 def show_heros():
@@ -87,41 +84,53 @@ def show_heros():
 
 #Condition de completion de la team
 def team_complete(team):
-    maximum_heros = None
-    if len(team) == maximum_heros:
-        return True
+    return len(team) == TEAM_SIZE
 
 #Verification de la validité du choix rentré par l'user
-def is_team_choice_valide(choice):
-    choice = input("Veuillez choisir les heros que vous souhaitez inserer dans votre équipe")
-    if choice.isdigit() and choice <10 and choice >0:
-        return True
-    else:
-        return ("Le choix des heros doit être fait avec les chiffres de 1 à 9 seulement")
+def is_team_choice_valide(choice, heros):
+    return (choice.isdigit() and 1<= int(choice) <= len(heros))
+
+#Demander le choix du hero au user
+def ask_choice_heros(heros):
+    while True:
+        choice = input(f"Veuillez choisir un héros entre 1 et {len(heros)} : ")
+        if is_team_choice_valide(choice, heros) and not team_complete([]):
+            return int(choice)
+        print(f"Choix invalide. Veuillez entrer un chiffre entre 1 et {len(heros)}.")
 
 #Choix des heros et insertion dans une liste pour visualiser la team
-def choose_heros(heros, choice):
+def choose_heros():
     heros = get_heros()
     show_heros()
     chosen_heros = []
-    while not team_complete(chosen_heros) and is_team_choice_valide(choice):
-        chosen_heros.append(heros(choice[-1]))
+    while not team_complete(chosen_heros):
+        choice = ask_choice_heros(heros)
+        hero = heros[choice - 1]
+        chosen_heros.append(heros)
         return chosen_heros
 
+#Patron d'affichage propre d'un personnage
+def show_hero(index, hero):
+    name = next(key for key in hero if key != "_id")
+    stats = hero[name]
+    print(f"{index}. {name} - "f"ATK: {stats['ATK']}, DEF: {stats['DEF']}, PV: {stats['PV']}")
 
 #Afficher la team a l'utilisateur
 def show_team(team):
-    team = choose_heros()
     print()
     print("========================")
     print("Voici votre équipe :")
-    for hero in team:
-        print(f"{hero}\n")
+    for index, hero in enumerate(team, start = 1):
+        show_hero(index, hero)
+    
     print("========================")
 
 
 ############################################################  PARTIE MONSTRES  ############################################################
 
+#Comme pour heros on recuperer les monstres de la bdd en inserant dans liste
+def get_monsters():
+    return list(collection_ennemies.fin())
 
 #Choisir aleatoirement un monstre
 def choose_monster():
