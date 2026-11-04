@@ -70,47 +70,64 @@ def quit_game():
 
 #Recuperer heros
 def get_heros():
+    #recuperer et mettre dans une liste les heros de la bdd
     return list(collection_heros.find())
 
 #Montrer les heros disponibles
 def show_heros():
     print("========================")
     print("Voici les heros disponibles")
-    for hero in get_heros():
-        print(f"{hero}\n")
+    #boucle 
+    for index, hero in enumerate(heros, start = 1):
+        #montrer hero avec index et stats
+        show_hero(index, hero)
     print()
     print("Veuillez en choisir le nombre necessaire pour former votre équipe pour votre équipe en utilisant les chiffres de 1 à 9 correspondant à chaque héros.")
     print("========================")
 
 #Condition de completion de la team
 def team_complete(team):
+    #si longeur de team est egale au max de heros
     return len(team) == TEAM_SIZE
 
 #Verification de la validité du choix rentré par l'user
 def is_team_choice_valide(choice, heros):
+    #verifier si choix ciffre et si choix compris dans intervalle
     return (choice.isdigit() and 1<= int(choice) <= len(heros))
 
 #Demander le choix du hero au user
 def ask_choice_heros(heros):
     while True:
+        #demander choix a user
         choice = input(f"Veuillez choisir un héros entre 1 et {len(heros)} : ")
+        #si choix valide et que team pas complete 
         if is_team_choice_valide(choice, heros) and not team_complete([]):
+            #retourner choix de user converti
             return int(choice)
+        #renvoyer au user message derreur si choix pas valide
         print(f"Choix invalide. Veuillez entrer un chiffre entre 1 et {len(heros)}.")
 
 #Choix des heros et insertion dans une liste pour visualiser la team
 def choose_heros():
+    #recuperer heros dans une variable
     heros = get_heros()
+    #montrer heros avec future fonction show_heros()
     show_heros()
+    #créer un tab pour stocker liste finale
     chosen_heros = []
+    #tant que team pas complete
     while not team_complete(chosen_heros):
+        #demander choix au user
         choice = ask_choice_heros(heros)
+        #ajouter le hero choisi dans la liste finale
         hero = heros[choice - 1]
         chosen_heros.append(heros)
+        #retourner la liste au user
         return chosen_heros
 
 #Patron d'affichage propre d'un personnage
 def show_hero(index, hero):
+    #recuperer les stats avec les clés
     name = next(key for key in hero if key != "_id")
     stats = hero[name]
     print(f"{index}. {name} - "f"ATK: {stats['ATK']}, DEF: {stats['DEF']}, PV: {stats['PV']}")
@@ -197,31 +214,41 @@ def team_is_alive(team):
             return True
     return False
         
-def switch_hero():
-    "..."
+def choose_active_hero(team):
+    for hero in team:
+        if hero_is_alive(hero):
+            return hero
+    return ("Il n'y as plus de heros disponibles")
+
+def calculate_damage(hero, monster):
+    attacker_stats = get_character_stats(hero)
+    defender_stats = get_character_stats(monster)
+
+    damage = max(0, attacker_stats['ATK'] - defender_stats['DEF'])
+    return max(1, damage)
 
 def monster_take_damage(monster, hero):
-    "..."
+    damage = calculate_damage(hero, monster)
+    monster_stats = get_character_stats(monster)
+
+    monster_stats['PV'] = max(0, monster_stats['PV'] - damage)
+    print(f"{get_character_name(hero)} inflige {damage} point de dégats à {get_character_name(monster)} !")
 
 def hero_take_damage(hero, monster):
-    "..."
+    damage = calculate_damage(monster, hero)
+    hero_stats = get_character_stats(hero)
+
+    hero_stats['PV'] = max(0, hero_stats['PV'] - damage)
+    print(f"{get_character_name(monster)} inflige {damage} points de dégats à {get_character_name(hero)} !")
 
 def attack(hero, monster):
-    get_hero_stats(hero)
-    get_monster_stats(monster)
-    while monster_is_alive(monster) and hero_is_alive(hero):
-        print_stats(hero,monster)
-        monster_take_damage()
-        monster_is_alive(monster)    
-
+    if hero_is_alive(hero) and monster_is_alive(monster):
+        monster_take_damage(monster, hero)
+    
 def subir_attack(hero, monster):
-    get_hero_stats(hero)
-    get_monster_stats(monster)
-    while monster_is_alive(monster) and hero_is_alive(hero):
-        print_stats(hero,monster)
-        hero_take_damage()
-        hero_is_alive(hero)
-
+    if hero_is_alive(hero) and monster_is_alive(monster):
+        hero_take_damage(hero, monster)
+   
 def count_waves():
     "..."
 

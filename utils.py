@@ -16,21 +16,18 @@ def afficher_menu():
     print("Appuyez sur 2 pour afficher les scores")
     print("Appuyez sur 3 pour quitter le jeu")
 
-def loose():
-    print("Vous avez perdu !")
-    print("Merci d'avoir joué !")
-    exit()
+################# AFFICHAGE DU JEU ET DU MENU #################
 
-def win():
-    print("Vous avez gagné !")
-    print("Merci d'avoir joué !")
-    exit()
+#Dans message box 
+#Afficher bienvenue
+#Afficher regles du jeu
+#Afficher les choix possibles du menu 
+    #print 1 pour lancer
+    #print 2 pour leaderboard
+    #print 3 pour quitter
+    #(l'utilisateur choisi) --> lance les fonctions associées
 
-print()
-print()
-afficher_en_forme_jeu()
-print()
-print()
-afficher_menu()
-print()
-print()
+#SI user lance jeu et que verifier team is complete == False:
+    #Afficher un message "choisir pseudo"
+    #Afficher un message "vous devez choisir une équipe de TEAM_SIZE heros pour commencer le jeu"
+    #Afficher le menu pour choisir une équipe
