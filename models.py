@@ -9,18 +9,43 @@ class CharacterDB:
     defense: int
     attack: int
 
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "hp": self.hp,
+            "defense": self.defense,
+            "attack": self.attack
+        }
+
 
 @dataclass
 class MonsterSaveDB:
     name: str
     hp: int
 
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "hp": self.hp
+        }
+
 
 @dataclass
 class MonsterDB:
     name: str
     hp: int
-    equipement: List["Item"]
+    defense: int
+    attack: int
+    equipement: List["Item"] = None
+
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "hp": self.hp,
+            "defense": self.defense,
+            "attack": self.attack,
+            "equipement": [item.__dict__() for item in (self.equipement or [])]
+        }
 
 
 @dataclass
@@ -28,12 +53,25 @@ class ScoreDB:
     player_name: str
     score: int
 
+    def __dict__(self):
+        return {
+            "player_name": self.player_name,
+            "score": self.score
+        }
+
 
 @dataclass
 class CharacterSaveDB:
     name: str
     hp: int
     equipement: List["Item"]
+
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "hp": self.hp,
+            "equipement": [item.__dict__() for item in self.equipement]
+        }
 
 @dataclass
 class SaveDB:
@@ -43,6 +81,15 @@ class SaveDB:
     monsters: List[MonsterDB]
     inventaire: List["Item"]
 
+    def __dict__(self):
+        return {
+            "player_name": self.player_name,
+            "score": self.score,
+            "equipe": [character.__dict__() for character in self.equipe],
+            "monsters": [monster.__dict__() for monster in self.monsters],
+            "inventaire": [item.__dict__() for item in self.inventaire]
+        }
+
 @dataclass
 class Item:
     name: str
@@ -51,11 +98,27 @@ class Item:
     effect: Dict[str, int]
     consumable: bool
 
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "item_type": self.item_type,
+            "rarity": self.rarity,
+            "effect": self.effect,
+            "consumable": self.consumable
+        }
+
 @dataclass
 class Vague:
     start_number: int
     end_number: int
     monsters: List[MonsterDB]
+
+    def __dict__(self):
+        return {
+            "start_number": self.start_number,
+            "end_number": self.end_number,
+            "monsters": [monster.__dict__() for monster in self.monsters]
+        }
 
 @dataclass
 class Difficulty:
@@ -65,9 +128,24 @@ class Difficulty:
     defense_multiplier: float
     item_multiplier: float
 
+    def __dict__(self):
+        return {
+            "lap": self.lap,
+            "health_multiplier": self.health_multiplier,
+            "attack_multiplier": self.attack_multiplier,
+            "defense_multiplier": self.defense_multiplier,
+            "item_multiplier": self.item_multiplier
+        }
+
 @dataclass
 class Rarity:
     name: str
     drop_rate: float
+
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "drop_rate": self.drop_rate
+        }
 
 
