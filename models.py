@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Dict
+from typing import Dict, List
 
 
 @dataclass
@@ -19,24 +19,12 @@ class CharacterDB:
 
 
 @dataclass
-class MonsterSaveDB:
-    name: str
-    hp: int
-
-    def __dict__(self):
-        return {
-            "name": self.name,
-            "hp": self.hp
-        }
-
-
-@dataclass
 class MonsterDB:
     name: str
     hp: int
     defense: int
     attack: int
-    equipement: List["Item"] = None
+    dropable: List["Item"]
 
     def __dict__(self):
         return {
@@ -44,7 +32,7 @@ class MonsterDB:
             "hp": self.hp,
             "defense": self.defense,
             "attack": self.attack,
-            "equipement": [item.__dict__() for item in (self.equipement or [])]
+            "dropable": [item.name for item in self.dropable]
         }
 
 
@@ -70,25 +58,39 @@ class CharacterSaveDB:
         return {
             "name": self.name,
             "hp": self.hp,
-            "equipement": [item.__dict__() for item in self.equipement]
+            "equipement": [item.name for item in self.equipement]
         }
+
+
+@dataclass
+class MonsterSaveDB:
+    name: str
+    hp: int
+
+    def __dict__(self):
+        return {
+            "name": self.name,
+            "hp": self.hp
+        }
+
 
 @dataclass
 class SaveDB:
     player_name: str
     score: int
     equipe: List[CharacterSaveDB]
-    monsters: List[MonsterDB]
+    monsters: List[MonsterSaveDB]
     inventaire: List["Item"]
 
     def __dict__(self):
         return {
             "player_name": self.player_name,
             "score": self.score,
-            "equipe": [character.__dict__() for character in self.equipe],
-            "monsters": [monster.__dict__() for monster in self.monsters],
-            "inventaire": [item.__dict__() for item in self.inventaire]
+            "equipe": [char.__dict__() for char in self.equipe],
+            "monsters": [mon.__dict__() for mon in self.monsters],
+            "inventaire": [item.name for item in self.inventaire]
         }
+
 
 @dataclass
 class Item:
@@ -107,8 +109,9 @@ class Item:
             "consumable": self.consumable
         }
 
+
 @dataclass
-class Vague:
+class VagueDB:
     start_number: int
     end_number: int
     monsters: List[MonsterDB]
@@ -117,12 +120,13 @@ class Vague:
         return {
             "start_number": self.start_number,
             "end_number": self.end_number,
-            "monsters": [monster.__dict__() for monster in self.monsters]
+            "monsters": [mon.__dict__() for mon in self.monsters]
         }
+
 
 @dataclass
 class Difficulty:
-    lap : int
+    lap: int
     health_multiplier: float
     attack_multiplier: float
     defense_multiplier: float
@@ -137,6 +141,7 @@ class Difficulty:
             "item_multiplier": self.item_multiplier
         }
 
+
 @dataclass
 class Rarity:
     name: str
@@ -147,5 +152,3 @@ class Rarity:
             "name": self.name,
             "drop_rate": self.drop_rate
         }
-
-
