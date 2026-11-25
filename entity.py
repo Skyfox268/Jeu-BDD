@@ -3,11 +3,12 @@ from typing import Dict, List
 
 
 class Entity:
-    name : str
-    hp: int
-    max_hp : int
-    attack : int
-    defense : int
+    def __init__(self, name: str, hp: int, defense: int, attack: int):
+        self.name = name
+        self.hp = hp
+        self.max_hp = hp
+        self.defense = defense
+        self.attack = attack
 
     def is_alive(self) -> bool:
         return self.hp > 0

@@ -1,22 +1,25 @@
 from dataclasses import dataclass
 from typing import Dict, List
 from entity import Entity
+from item import Item
 
 class Character(Entity):
-    equipement: List['Item']
-    attack: int
-    defense: int
+    def __init__(self, name: str, hp: int, max_hp: int, defense: int, attack: int, equipement: List["Item"]):
+        super().__init__(name, hp, max_hp, defense, attack)
+        self.equipement = equipement
 
-    def equip_item(self, item: 'Item') -> None:
+    def equip_item(self, item: "Item"):
         self.equipement.append(item)
 
-    def unequip_item(self, item: 'Item') -> None:
+    def unequip_item(self, item: "Item"):
         if item in self.equipement:
             self.equipement.remove(item)
 
-    def is_slot_available(self, item: 'Item') -> bool:
-        # Check if the item can be equipped based on its type
-        for equipped_item in self.equipement:
-            if equipped_item.item_type == item.item_type:
+    def is_slot_avaible(self, item_type: str) -> bool:
+        for item in self.equipement:
+            if item.item_type == item_type:
                 return False
         return True
+
+
+
