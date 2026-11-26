@@ -1,6 +1,6 @@
 from typing import Dict, List
 from player import Player
-from db_init import MonsterDB, VagueDB, Difficulty, SaveDB, ItemList, CharacterSaveDB, MonsterSaveDB
+from db_init import *
 from pymongo import MongoClient
 from vague import Vague
 
@@ -40,9 +40,8 @@ class Game:
         def launch_game(self):
             if not self.player.is_alive():
                 print(f"{self.player.name} est mort. La partie est terminée.")
-                return
 
-            self.vague.play_vague(self.player)
+            return self.vague.play_vague(self.player)
 
         def show_leaderboard(self):
             scores = (
