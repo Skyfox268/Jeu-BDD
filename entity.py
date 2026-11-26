@@ -15,9 +15,9 @@ class Entity:
         return self.hp > 0
 
     def take_damage(self, damage: int) -> int:
-        acutual_damage = max(damage - self.defense, 1)
-        self.hp = max(self.hp - acutual_damage, 0)
-        return acutual_damage
+        actual_damage = max(damage - self.defense, 1)
+        self.hp = max(self.hp - actual_damage, 0)
+        return actual_damage
 
     def heal(self, amount: int) -> int:
         actual_heal = min(amount, self.max_hp - self.hp)

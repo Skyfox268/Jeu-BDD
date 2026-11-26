@@ -15,8 +15,8 @@ class Character(Entity):
             self.equipement.remove(item)
 
     def is_slot_avaible(self, slot_name: str) -> bool:
-        for i in self.equipement:
-            if i.item_type == slot_name:
+        for slot in self.equipement:
+            if slot.item_type == slot_name:
                 return True
         return False
 
@@ -38,5 +38,5 @@ class Character(Entity):
     def is_alive(self) -> bool:
         return self.hp > 0
 
-        
+
 

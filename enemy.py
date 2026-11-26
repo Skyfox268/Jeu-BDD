@@ -7,8 +7,17 @@ class Enemy(Entity):
         super().__init__(name, hp, max_hp, defense, attack)
         self.dropable = dropable
 
-    def drop_loot(self) -> List[Item]:
+
+    def get_dropable(self) -> List[Item]:
         return self.dropable
+
+    def drop_loot(self) -> List[Item]:
+        dropped_items = []
+        for item in self.dropable:
+            if item.drop_rate > 0:
+                dropped_items.append(item)
+        return dropped_items
+
 
     def play_turn(self, target: 'Entity') -> Dict[str, int]:
         damage_dealt = self.attack(target)
