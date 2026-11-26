@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import Dict, List
 from entity import Entity
 from item import Item
@@ -15,11 +14,9 @@ class Character(Entity):
         if item in self.equipement:
             self.equipement.remove(item)
 
-    def is_slot_avaible(self, item_type: str) -> bool:
-        for item in self.equipement:
-            if item.item_type == item_type:
-                return False
-        return True
-
-
+    def is_slot_avaible(self, slot_name: str) -> bool:
+        for i in self.equipement:
+            if i.item_type == slot_name:
+                return True
+        return False
 

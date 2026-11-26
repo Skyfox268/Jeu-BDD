@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from typing import Dict, List
 from item import Item
 from entity import Entity
