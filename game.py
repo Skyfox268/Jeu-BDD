@@ -10,10 +10,16 @@ class Game:
         self.mongo_client = MongoClient()
         self.vague = Vague(1, [])
 
-        def save_game():
-            pass
+        def save_game(self, save_date: SaveDB):
+            save_data = SaveDB(
+                player_name=self.player.name,
+                score=self.player.score,
+                equipe=self.player.equipe,
+                monsters=self.player.monsters,
+                inventaire=self.player.inventory
+            )
 
-        def load_game():
+        def load_game(sel, lodad_save: SaveDB):
             pass
 
         def launch_game():

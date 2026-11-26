@@ -20,3 +20,23 @@ class Character(Entity):
                 return True
         return False
 
+    def get_equipement(self, slot_name: str) -> List["Item"]:
+        return [i for i in self.equipement if i.item_type == slot_name]
+
+    def project_damage(self, target: 'Entity') -> int:
+        projected_damage = max(self.attack - target.defense, 1)
+        return projected_damage
+
+    def play_turn(self, target: 'Entity') -> Dict[str, int]:
+        damage_dealt = self.attack(target)
+        return {
+            "attacker": self.name,
+            "target": target.name,
+            "damage_dealt": damage_dealt
+        }
+
+    def is_alive(self) -> bool:
+        return self.hp > 0
+
+        
+

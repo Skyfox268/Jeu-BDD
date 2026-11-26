@@ -25,4 +25,9 @@ class Player:
     def check_inventory(self) -> List[str]:
         return [item.name for item in self.inventory]
 
-    
+    def use_item(self, item: "Item") -> None:
+        if item in self.inventory:
+            item.use(self)
+            self.inventory.remove(item)
+        else:
+            raise ValueError(f"{item.name} n'est pas présent dans l'inventaire du joueur {self.name}.")

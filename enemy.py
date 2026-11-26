@@ -18,3 +18,6 @@ class Enemy(Entity):
             "damage_dealt": damage_dealt
         }
 
+    def is_alive(self) -> bool:
+        return self.hp > 0
+

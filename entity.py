@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List
-
+from character import Character
+from enemy import Enemy
 
 class Entity:
     def __init__(self, name: str, hp: int, defense: int, attack: int):
@@ -34,4 +35,9 @@ class Entity:
             "target": target.name,
             "damage_dealt": damage_dealt
         }
+
+    def team_is_alive(self, team: List['Entity']) -> bool:
+        return any(member.is_alive() for member in team)
+
+
 
