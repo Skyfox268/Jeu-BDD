@@ -9,5 +9,9 @@ class Item:
         self.item_type = item_type
         self.stats = stats
 
+        def __str__(self):
+            return f"{self.name} (Description: {self.description}, Drop Rate: {self.drop_rate}, Rarity: {self.rarity}, Type: {self.item_type}, Stats: {self.stats})"
+    
+
 
 

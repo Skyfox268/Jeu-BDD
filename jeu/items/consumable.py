@@ -1,6 +1,6 @@
 from typing import Dict, List
-from item import Item
-from entity import Entity
+from jeu.items.item import Item
+from jeu.entities.entity import Entity
 
 class Consumable(Item):
     def __init__(self, name: str, description: str, drop_rate: int, rarity: str, item_type: str, stats: Dict[str, int]):

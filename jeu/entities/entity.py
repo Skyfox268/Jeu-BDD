@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List
-from character import Character
-from enemy import Enemy
+from jeu.entities.character import Character
+from jeu.entities.enemy import Enemy
 
 class Entity:
     def __init__(self, name: str, hp: int, defense: int, attack: int):
@@ -11,22 +11,32 @@ class Entity:
         self.defense = defense
         self.attack = attack
 
+    def __str__(self):
+        return f"{self.name} (HP: {self.hp}/{self.max_hp}, Defense: {self.defense}, Attack: {self.attack})"
+
     def is_alive(self) -> bool:
         return self.hp > 0
 
     def take_damage(self, damage: int) -> int:
         actual_damage = max(damage - self.defense, 1)
-        self.hp = max(self.hp - actual_damage, 0)
+        actual_damage = min(actual_damage, self.hp)  
+        self.hp -= actual_damage
         return actual_damage
 
     def heal(self, amount: int) -> int:
         actual_heal = min(amount, self.max_hp - self.hp)
         self.hp += actual_heal
         return actual_heal
-
+    
+    @property
     def attack(self, target: 'Entity') -> int:
         damage_dealt = target.take_damage(self.attack)
         return damage_dealt
+
+    @property
+    def defense(self, target: 'Entity') -> int:
+        damage_blocked = target.take_damage(self.defense)
+        return damage_blocked
 
     def play_turn(self, target: 'Entity') -> Dict[str, int]:
         damage_dealt = self.attack(target)
@@ -38,6 +48,7 @@ class Entity:
 
     def team_is_alive(self, team: List['Entity']) -> bool:
         return any(member.is_alive() for member in team)
+    
 
 
 

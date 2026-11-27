@@ -1,6 +1,7 @@
 from typing import Dict, List
-from item import Item
-from character import Character
+from jeu.items.item import Item
+from jeu.entities.character import Character
+from jeu.entities.entity import Entity
 
 
 class Player:
@@ -9,6 +10,9 @@ class Player:
         self.score = score
         self.team = team
         self.inventory = inventory
+
+    def __str__(self):
+        return f"Player: {self.name}, Score: {self.score}, Team: {[character.name for character in self.team]}, Inventory: {[item.name for item in self.inventory]}"
 
     def create_team(self, characters: List["Character"]) -> None:
         self.team = characters
@@ -25,9 +29,9 @@ class Player:
     def check_inventory(self) -> List[str]:
         return [item.name for item in self.inventory]
 
-    def use_item(self, item: "Item") -> None:
+    def use_item(self, item: Item, target: Entity) -> None:
         if item in self.inventory:
-            item.use(self)
+            item.use(target)
             self.inventory.remove(item)
         else:
             raise ValueError(f"{item.name} n'est pas présent dans l'inventaire du joueur {self.name}.")

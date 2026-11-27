@@ -1,12 +1,12 @@
 from typing import Dict, List
-from item import Item
-from entity import Entity
+from jeu.items.item import Item
+from jeu.entities.entity import Entity
+from random import *
 
 class Enemy(Entity):
     def __init__(self, name: str, hp: int, max_hp: int, defense: int, attack: int, dropable: List[Item]):
         super().__init__(name, hp, max_hp, defense, attack)
         self.dropable = dropable
-
 
     def get_dropable(self) -> List[Item]:
         return self.dropable
@@ -14,7 +14,7 @@ class Enemy(Entity):
     def drop_loot(self) -> List[Item]:
         dropped_items = []
         for item in self.dropable:
-            if item.drop_rate > 0:
+            if random() < item.drop_rate:
                 dropped_items.append(item)
         return dropped_items
 

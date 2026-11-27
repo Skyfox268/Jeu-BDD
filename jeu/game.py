@@ -1,8 +1,8 @@
 from typing import Dict, List
-from player import Player
-from db_init import *
+from jeu.player import Player
+from jeu.db.db_init import *
 from pymongo import MongoClient
-from vague import Vague
+from jeu.vague import Vague
 
 class Game:
     def __init__(self, player: Player):
