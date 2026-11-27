@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List
 from jeu.items.item import Item
 from jeu.entities.character import Character
 from jeu.entities.entity import Entity

@@ -1,8 +1,5 @@
-from typing import Dict, List
-from jeu.entities.entity import Entity
+from typing import List
 from jeu.entities.enemy import Enemy
-from random import *
-from jeu.db.db_init import MongoDBClient, DifficultyDB
 from jeu.player import Player
 
 

@@ -1,7 +1,7 @@
 from typing import Dict, List
 from jeu.items.item import Item
 from jeu.entities.entity import Entity
-from random import *
+from random import random
 
 class Enemy(Entity):
     def __init__(self, name: str, hp: int, max_hp: int, defense: int, attack: int, dropable: List[Item]):

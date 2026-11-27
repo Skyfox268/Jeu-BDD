@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict
 
 class Item:
     def __init__(self, name: str, description: str, drop_rate: int, rarity: str, item_type: str, stats: Dict[str, int]):
